@@ -29,14 +29,18 @@
 - 리포지토리 클론 및 폴더 이동
 
 git clone [https://github.com/JAESEOP22/Hynix-Quant-Bot.git](https://github.com/JAESEOP22/Hynix-Quant-Bot.git)
+
 cd Hynix-Quant-Bot
 
 
 - 가상환경(venv) 구축 및 의존성 패키지 설치
 
 python3 -m venv venv
+
 source venv/bin/activate
+
 pip install --upgrade pip
+
 pip install fastapi uvicorn requests yfinance pandas python-dotenv google-genai python-dateutil
 
 
@@ -44,10 +48,15 @@ pip install fastapi uvicorn requests yfinance pandas python-dotenv google-genai 
 프로젝트 루트 디렉토리에 .env 파일을 생성하고 아래 보안 정보를 기재합니다. (.gitignore 처리로 깃허브에는 제외됨)
 
 GEMINI_API_KEY=your_gemini_api_key
+
 Client_ID=your_naver_news_client_id
+
 Client_Secret=your_naver_news_client_secret
+
 KIS_API_KEY=your_korea_investment_appkey
+
 KIS_SECRET_KEY=your_korea_investment_appsecret
+
 KIS_ACCOUNT_NO=your_korean_investment_account_number_with_dash
 
 
@@ -59,10 +68,12 @@ KIS_ACCOUNT_NO=your_korean_investment_account_number_with_dash
 - 방법 A: Tmux 터미널 세션 유지 (권장)
 
 - 새 가상 세션 열기
+
 tmux new -s trading_session
 
 - 가상환경 활성화 및 서비스 구동
 source venv/bin/activate
+
 uvicorn main:app --host 0.0.0.0 --port 8000
 
 - 세션에서 빠져나오기 (서버 계속 가동됨)
@@ -80,24 +91,33 @@ sudo nano /etc/systemd/system/trading.service
 - 파일 안에 아래 구성 정보를 입력하여 시스템 서비스로 등록합니다.
 
 [Unit]
+
 Description=SK Hynix Quant Trading Bot FastAPI Service
+
 After=network.target
 
 [Service]
+
 User=ubuntu
+
 WorkingDirectory=/home/ubuntu/Hynix-Quant-Bot
+
 ExecStart=/home/ubuntu/Hynix-Quant-Bot/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
+
 Restart=always
 
 [Install]
+
 WantedBy=multi-user.target
 
 
 - 서비스 활성화 명령:
-
 sudo systemctl daemon-reload
+
 sudo systemctl start trading
+
 sudo systemctl enable trading
+
 - 작동 로그 확인
 sudo journalctl -u trading -f
 
