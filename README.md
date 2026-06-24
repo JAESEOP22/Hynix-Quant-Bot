@@ -1,4 +1,4 @@
-1. 주요 아키텍처 및 데이터 조작화 기법
+# 1. 주요 아키텍처 및 데이터 조작화 기법
 
 - 정교한 NLP 가치평가 및 엄격한 배제 규칙 (Strict Exclusion)
 단순 긍정/부정 감성 분석을 넘어 뉴스의 펀더멘털 임팩트를 가치평가 4요소(매출, 마진, 재투자, 리스크) 관점에서 심층 평가합니다. 특히 하청 장비사나 테마주, 주관적인 목표주가 유지 뉴스 등 SK하이닉스 본체의 직접적 재무 영향이 없는 노이즈 정보는 엄격히 스크리닝하여 점수를 0점 처리(배제)합니다.
@@ -22,7 +22,7 @@
 
 
 
-2. 설치 및 개발 환경 세팅 (Ubuntu 기준)
+# 2. 설치 및 개발 환경 세팅 (Ubuntu 기준)
 
 - 이 프로젝트는 Ubuntu 20.04/22.04 LTS 환경에서의 백그라운드 상시 구동을 상정하여 패키징되었습니다.
 
@@ -52,23 +52,23 @@ KIS_ACCOUNT_NO=your_korean_investment_account_number_with_dash
 
 
 
-3. Ubuntu 상시 가동 설정 (Background Execution)
+# 3. Ubuntu 상시 가동 설정 (Background Execution)
 
 - 알고리즘의 상시 자동 매매를 실현하기 위해 Ubuntu 백그라운드 프로세스 매니저를 사용하는 것이 권장됩니다.
 
 - 방법 A: Tmux 터미널 세션 유지 (권장)
 
-# 새 가상 세션 열기
+- 새 가상 세션 열기
 tmux new -s trading_session
 
-# 가상환경 활성화 및 서비스 구동
+- 가상환경 활성화 및 서비스 구동
 source venv/bin/activate
 uvicorn main:app --host 0.0.0.0 --port 8000
 
-# 세션에서 빠져나오기 (서버 계속 가동됨)
+- 세션에서 빠져나오기 (서버 계속 가동됨)
 Ctrl + B 누른 뒤 D 키 입력
 
-# 다시 세션으로 진입하여 로그 확인하기
+- 다시 세션으로 진입하여 로그 확인하기
 tmux attach -t trading_session
 
 
@@ -98,11 +98,11 @@ WantedBy=multi-user.target
 sudo systemctl daemon-reload
 sudo systemctl start trading
 sudo systemctl enable trading
-# 작동 로그 확인
+- 작동 로그 확인
 sudo journalctl -u trading -f
 
 
 
-4. 거래 로그 분석 구조 (valuation_trading_log.csv)
+# 4. 거래 로그 분석 구조 (valuation_trading_log.csv)
 
 - 시스템 구동 결과는 매일 로컬 CSV 데이터베이스에 누적 기재됩니다. 단순히 거래 성공(TRADE) 기록뿐만 아니라, 시스템이 왜 진입을 웅크렸는지(SKIP), 네트워크 장애나 인프라 상의 누락(FAIL)은 어떻게 발생했는지 자체 평가 모듈의 퀀트 피드백이 정성 데이터로 축적되어, 지속적인 전략 디버깅의 유용한 자료로 축적됩니다.
