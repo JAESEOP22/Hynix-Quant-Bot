@@ -1,0 +1,23 @@
+# 가상 환경
+venv/
+.venv/
+env/
+
+# 환경 변수 및 비밀키 (★절대 업로드 금지★)
+.env
+
+# 파이썬 실행 캐시 파일
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# OS 및 기타 불필요한 파일
+.DS_Store
+Thumbs.db
+regedit.exe
+
+# 거래 로그 및 출력 파일
+*.csv
+*.log
